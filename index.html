@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Drag &amp; Drop - Vanilla JavaScript</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <div class="time">
+    <span id="time">剩餘時間：0s</span>
+  </div>
+  <div class="control" >
+    <div class="msg">
+      
+      <button id="btn">遊戲開始</button>
+      <!-- <span id="combo">成績分數：0</span> -->
+    </div>
+  </div>
+  <!-- partial:index.partial.html -->
+  <div class="bg">
+    <div class="empty"></div>
+  </div>
+  
+
+  <div class="box">
+    <div class="fill" draggable="true"> </div>
+    <div class="fill01" draggable="true"> </div>
+    <div class="fill02" draggable="true"> </div>
+  </div>
+ 
+  <!-- partial -->
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="./script.js"></script>
+  <script>
+     $("#btn").click(function(){
+    $(".control").remove();
+  });
+  </script>
+  <script>
+    //初始化
+var btn=document.getElementsByTagName("button")[0]; //button
+var time=document.getElementById("time"); //找到時間
+//var combo=document.getElementById("combo"); //找到分數
+var animal=document.getElementsByClassName("cell");
+var flag=0; //判別遊戲狀況 停止 0 遊戲中 1
+var sec=0,count=0;
+var beYellow=new Array(); //到時候會存放所有 red 事件的轉黃定時器，陣列有 100 個位置
+btn.addEventListener("click",gamestart); //規劃點選動作
+
+
+
+
+
+function gamestart(){ //遊戲開始
+  sec=60,count=0,flag=1;
+  time.textContent=`剩餘時間：${sec}`;
+  //combo.textContent=`成績分數：${count}`;
+  btn.removeEventListener("click",gamestart); //關閉 btn，不要再讓人去按他觸發多餘的 gamestart()
+
+  let start=setInterval(()=>{ //控制倒數以及遊戲區間的隔離（按鈕）
+    if(sec==0){
+      clearInterval(start);
+      flag=0;
+      btn.addEventListener("click",gamestart);//開啟 btn
+    }
+    else{
+      sec--;
+      time.textContent=`剩餘時間：${sec}`;
+    }
+  },1000);
+  
+  // for(let i=0;i<100;i++){//產生 100 組紅色事件 
+  //   let ontime=Math.floor(Math.random()*57000); //隨機 0~56999 ms
+  //   let which=Math.floor(Math.random()*9);  //隨機 0~8 處
+  //   let delay=Math.floor(Math.random()*3)+2; //隨機 2~4 秒
+
+  //   setTimeout(function(){
+  //     showit(which,delay,i);
+  //   },ontime);
+  // }
+}
+
+  </script>
+</body>
+
+</html>
